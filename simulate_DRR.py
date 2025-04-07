@@ -12,7 +12,7 @@ import pydicom
 import scipy.ndimage
 import time
 import os
-
+from scipy.ndimage import zoom
 
 def resample(image, spacing, new_spacing=[2.5, 2.5, 2.5]):
     # x, y, z
@@ -27,7 +27,7 @@ def resample(image, spacing, new_spacing=[2.5, 2.5, 2.5]):
     new_shape = np.round(new_real_shape)
     real_resize_factor = new_shape / image.shape
     new_spacing = spacing / real_resize_factor
-    image = scipy.ndimage.interpolation.zoom(image, real_resize_factor, mode='nearest')
+    image = zoom(image, real_resize_factor, mode='nearest')
     return image, new_spacing
 
 
@@ -59,7 +59,7 @@ def crop(image, shape=[128, 128, 128]):
 
 
 # data path
-LIDC_IDRI_PATH = '/home/anonymous/filter'
+LIDC_IDRI_PATH = '/media/anonymous/UBUNTU 24_0/Data_LIDC_IDRI'
 # CT save path
 crop_file_PATH = './crop_image/'
 os.makedirs(crop_file_PATH, exist_ok=True)

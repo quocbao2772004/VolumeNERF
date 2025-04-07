@@ -1,3 +1,10 @@
 crop_image
 drr_Xray
-images2D
+images_fakeB
+crop_image_intersection
+synthentic_Xray
+synthentic_Xray_intersection
+crop_image.zip
+drr_Xray.zip
+synthentic_Xray_intersection.zip
+crop_image_intersection.zip
