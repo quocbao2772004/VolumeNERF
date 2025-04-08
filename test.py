@@ -85,10 +85,23 @@ def test_model(checkpoint_path, test_dir, output_dir, mean_xray_path, std_xray_p
         np.save(os.path.join(output_subdir, f"{base_name}_volume.npy"), volume)
         cv2.imwrite(os.path.join(output_subdir, "drr.png"), normalize(drr))
 
-        slices = range(0, 128, 10)  # Khớp với snapshot (photo_num=10)
+        # Tạo ảnh cho cả 3 mặt cắt
+        slices = range(0, 128, 10)  # Lấy slice cách nhau 10
+
+        # Mặt cắt ngang (axial, trục Z)
         for i in slices:
-            slice_img = volume[i, :, :]  # Đổi trục để khớp với snapshot
-            cv2.imwrite(os.path.join(output_subdir, f"CT_{i}.png"), normalize(slice_img))
+            slice_img = volume[i, :, :]  # Shape: (128, 128)
+            cv2.imwrite(os.path.join(output_subdir, f"CT_axial_{i}.png"), normalize(slice_img))
+
+        # Mặt cắt đứng (coronal, trục Y)
+        for j in slices:
+            slice_img = volume[:, j, :]  # Shape: (128, 128)
+            cv2.imwrite(os.path.join(output_subdir, f"CT_coronal_{j}.png"), normalize(slice_img))
+
+        # Mặt cắt dọc (sagittal, trục X)
+        for k in slices:
+            slice_img = volume[:, :, k]  # Shape: (128, 128)
+            cv2.imwrite(os.path.join(output_subdir, f"CT_sagittal_{k}.png"), normalize(slice_img))
 
         torch.cuda.empty_cache()
 
